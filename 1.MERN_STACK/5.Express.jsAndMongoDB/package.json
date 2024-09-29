@@ -1,0 +1,16 @@
+{
+  "name": "5.express.jsandmongodb",
+  "version": "1.0.0",
+  "description": "Express.js + MongoDB",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Vivek Singh",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.21.0",
+    "mongoose": "^8.7.0"
+  }
+}
