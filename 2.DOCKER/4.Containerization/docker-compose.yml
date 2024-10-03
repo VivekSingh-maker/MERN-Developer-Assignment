@@ -1,0 +1,38 @@
+# Containerization: Explain the advantages of using Docker for deploying a MERN Stack application and provide 
+# an example of a real-world use case where Docker enhances development workflows.
+# 2.DOCKER\4.Containerization\docker-compose.yml
+version: '3'
+
+services:
+  # MongoDB service
+  mongo:
+    image: mongo:latest
+    container_name: mongo_db
+    restart: always
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+
+  # Express.js and Node.js service
+  backend:
+    build: ./backend
+    container_name: node_backend
+    restart: always
+    ports:
+      - "5000:5000"
+    depends_on:
+      - mongo
+    environment:
+      MONGO_URL: mongodb://127.0.0.1:27017/myDB
+
+  # React front-end service
+  frontend:
+    build: ./frontend
+    container_name: react_frontend
+    restart: always
+    ports:
+      - "3000:3000"
+
+volumes:
+  mongo-data:

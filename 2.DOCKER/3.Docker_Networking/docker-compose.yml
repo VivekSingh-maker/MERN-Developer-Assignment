@@ -1,0 +1,43 @@
+# Docker Networking: Modify the Docker Compose configuration to ensure that 
+# the Node.js application can communicate with the MongoDB database via 
+# Docker networking.
+# 2.DOCKER\3.Docker_Networking\docker-compose.yml
+version: '3'
+
+services:
+  # Node.js Application
+  app:
+    build: .
+    container_name: node_app
+    restart: always
+    ports:
+      - "3000:3000"
+    depends_on:
+      - mongo
+    environment:
+      MONGO_URL: mongodb://127.0.0.1:27017/myDB  # Mongo service as hostname
+    volumes:
+      - .:/usr/src/app
+    networks:
+      - app-network
+
+  # MongoDB Database
+  mongo:
+    image: mongo:latest
+    container_name: mongo_db
+    restart: always
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+    networks:
+      - app-network
+
+# Define named volume for MongoDB data persistence
+volumes:
+  mongo-data:
+
+# Create a custom network for both services
+networks:
+  app-network:
+    driver: bridge

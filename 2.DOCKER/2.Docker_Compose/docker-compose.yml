@@ -1,0 +1,33 @@
+# Docker Compose: Using Docker Compose, create a configuration file that sets up a multi-container application with a Node.js server 
+# and a MongoDB database.
+# 2.DOCKER\2.Docker_Compose\docker-compose.yml
+version: '3'
+
+services:
+  # Node.js Application
+  app:
+    build: .
+    container_name: node_app
+    restart: always
+    ports:
+      - "3000:3000"
+    depends_on:
+      - mongo
+    environment:
+      MONGO_URL: mongodb://127.0.0.1:27017/myDB
+    volumes:
+      - .:/usr/src/app
+
+  # MongoDB Database
+  mongo:
+    image: mongo:latest
+    container_name: mongo_db
+    restart: always
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+
+# Define named volume for persistent MongoDB data
+volumes:
+  mongo-data:
